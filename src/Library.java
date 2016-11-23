@@ -79,11 +79,7 @@ public class Library {
                 ->t1.vecesQueSeRepite == t2.vecesQueSeRepite ?
                 t1.song.dameInterprete().compareTo(t2.song.dameInterprete())
                 : (int)(t2.vecesQueSeRepite - t1.vecesQueSeRepite));
-        List<String> result = new ArrayList<>();
-        for (int i = 0; i < gestionCancionList.size(); i++) {
-            result.add(gestionCancionList.get(i).song.dameInterprete());
-        }
-        return result;
+        return gestionCancionList.stream().map(p->p.song.dameInterprete()).collect(Collectors.toList());
     }
     private class GestionCancion {
         long vecesQueSeRepite;
