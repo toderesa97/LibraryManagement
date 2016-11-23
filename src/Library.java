@@ -43,7 +43,6 @@ public class Library {
             int counter = 0;
             for(Song i:todasLasCanciones){
                 if(p.equals(i)) counter++;
-                System.out.println(counter);
             }
             return counter>1;
         }).collect(Collectors.toSet());
