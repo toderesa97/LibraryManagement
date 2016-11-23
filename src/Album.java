@@ -40,8 +40,8 @@ public class Album {
     }
     @Override
     public boolean equals(Object obj){
-        return ((Album)obj).canciones.size() == canciones.size() && (obj instanceof Album) ? 
-                canciones.stream().map(p->p.equals(((Album)obj).
-                canciones.stream().map(u->u))).count() == canciones.size() : false;
+        return ((Album)obj).canciones.size() == canciones.size() && (obj instanceof Album) 
+                && canciones.stream().map(p->p.equals(((Album)obj).
+                canciones.stream().map(u->u))).count() == canciones.size();
     }
 }
