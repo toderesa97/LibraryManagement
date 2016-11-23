@@ -27,7 +27,7 @@ public class Album {
         canciones.remove(i);
     }
     public int duracion(){
-        return canciones.stream().mapToInt(p->p.dameDuracion()).sum();
+        return canciones.stream().mapToInt(Song::dameDuracion).sum();
     }
     @Override
     public String toString(){
