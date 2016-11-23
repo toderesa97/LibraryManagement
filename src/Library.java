@@ -38,19 +38,17 @@ public class Library {
     }
 
     public Set<Song> dameCancionesRepetidas(){
-        Set<Song> songs = new LinkedHashSet<>();
-        Set<Song> todasLasCanciones = new LinkedHashSet<>();
-
-        for(Album album:albumSet){
-            for (int i = 0; i < album.numeroDeCanciones(); i++) {
-                if(songs.add(album.dameCancion(i))){
-                    continue;
-                }
-                todasLasCanciones.add(album.dameCancion(i));
+        List<Song> todasLasCanciones = dameTodasLasCaciones();
+        return todasLasCanciones.stream().filter(p->{
+            int counter = 0;
+            for(Song i:todasLasCanciones){
+                if(p.equals(i)) counter++;
+                System.out.println(counter);
             }
-        }
-        return todasLasCanciones;
+            return counter>1;
+        }).collect(Collectors.toSet());
     }
+    
     private List<Song> dameTodasLasCaciones(){
 
         List<Song> todasLasCanciones = new ArrayList<>();
@@ -60,7 +58,6 @@ public class Library {
             }
         }
         return todasLasCanciones;
-
     }
 
     public List<String> dameInterpretes() {
