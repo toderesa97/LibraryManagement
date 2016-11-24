@@ -115,7 +115,7 @@ public class LibraryShould {
         album.addSong(new Song("title2", "author2", DEFAULT_DURATION));
         library.addAlbum(album);
 
-        String expected = "Album 4:\n" +
+        String expected = "Album " + album.getId() +":\n" +
                             "1) [Título:title1 intérprete:author1 duración:3]\n" +
                             "2) [Título:title2 intérprete:author2 duración:3]";
         assertEquals(expected, library.toString());
