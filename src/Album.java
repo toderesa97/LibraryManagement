@@ -11,22 +11,22 @@ public class Album {
         numberOfAlbum = numberOfAlbum+1;
 
     }
-    public String dameNombre() {
+    public String getName() {
         return albumName;
     }
-    public int numeroDeCanciones(){
+    public int getNumberOfSongs(){
         return canciones.size();
     }
-    public Song dameCancion(int song){
+    public Song getSongAt(int song){
         return canciones.size()>song && song>=0 ? canciones.get(song) : null;
     }
-    public void aniadeCancion(Song song){
+    public void addSong(Song song){
         canciones.add(song);
     }
-    public void quitaCancion(int i){
+    public void removeSongAt(int i){
         canciones.remove(i);
     }
-    public int duracion(){
+    public int duration(){
         return canciones.stream().mapToInt(Song::dameDuracion).sum();
     }
     @Override

@@ -28,13 +28,13 @@ public class BibliotecaClassShould {
 
     @Test
     public void testingIfDameAlbumMethodIsWorking (){
-        album1.aniadeCancion(song1);
-        album1.aniadeCancion(song4);
+        album1.addSong(song1);
+        album1.addSong(song4);
 
-        album2.aniadeCancion(song2);
+        album2.addSong(song2);
 
-        album3.aniadeCancion(song2);
-        album3.aniadeCancion(song5);
+        album3.addSong(song2);
+        album3.addSong(song5);
 
         library.aniadeAlbum(album1);
         library.aniadeAlbum(album3);
@@ -57,27 +57,27 @@ public class BibliotecaClassShould {
         for (int i = 0; i < expected.length; i++) {
             assertEquals(expected[i],ls[i]);
         }
-        assertNotEquals(song5, album1.dameCancion(0));
-        album1.aniadeCancion(song5);
+        assertNotEquals(song5, album1.getSongAt(0));
+        album1.addSong(song5);
         library.aniadeAlbum(album1);
         //ls = library.get().stream().toArray(Album[]::new);
         Album[] expected2 = {album1,album3,album2};
         for (int i = 0; i < expected.length; i++) {
             assertEquals(expected2[i],ls[i]);
         }
-        assertEquals(song5, album1.dameCancion(0));
+        assertEquals(song5, album1.getSongAt(0));
 
     }
 
     @Test
     public void testingIfRemoveMethodIsWorking (){
-        album1.aniadeCancion(song1);
-        album1.aniadeCancion(song4);
+        album1.addSong(song1);
+        album1.addSong(song4);
 
-        album2.aniadeCancion(song2);
+        album2.addSong(song2);
 
-        album3.aniadeCancion(song2);
-        album3.aniadeCancion(song5);
+        album3.addSong(song2);
+        album3.addSong(song5);
 
         library.aniadeAlbum(album1);
         library.aniadeAlbum(album3);
@@ -99,17 +99,17 @@ public class BibliotecaClassShould {
 
     @Test
     public void testingIfDameCancionesRepetidasIsWorkingProperly (){
-        album1.aniadeCancion(song5);
-        album1.aniadeCancion(song4);
-        album1.aniadeCancion(song3);
+        album1.addSong(song5);
+        album1.addSong(song4);
+        album1.addSong(song3);
 
-        album2.aniadeCancion(song5);
-        album2.aniadeCancion(song7);
-        album2.aniadeCancion(song4);
+        album2.addSong(song5);
+        album2.addSong(song7);
+        album2.addSong(song4);
 
-        album3.aniadeCancion(song1);
-        album3.aniadeCancion(song2);
-        album3.aniadeCancion(song6);
+        album3.addSong(song1);
+        album3.addSong(song2);
+        album3.addSong(song6);
         Library b = new Library();
         b.aniadeAlbum(album1);b.aniadeAlbum(album2);b.aniadeAlbum(album3);
 
@@ -125,28 +125,28 @@ public class BibliotecaClassShould {
 
     @Test
     public void testingIfdameIntérpretesIsWorkingProperly (){
-        album1.aniadeCancion(song5);
-        album1.aniadeCancion(song4);
-        album1.aniadeCancion(song3);
+        album1.addSong(song5);
+        album1.addSong(song4);
+        album1.addSong(song3);
 
-        album2.aniadeCancion(song5);
-        album2.aniadeCancion(song7);
-        album2.aniadeCancion(song4);
+        album2.addSong(song5);
+        album2.addSong(song7);
+        album2.addSong(song4);
 
-        album3.aniadeCancion(song4);
-        album3.aniadeCancion(song5);
-        album3.aniadeCancion(song5);
-        album3.aniadeCancion(song5);
-        album3.aniadeCancion(song4);
-        album3.aniadeCancion(song4);
-        album3.aniadeCancion(song3);
-        album3.aniadeCancion(song3);
-        album3.aniadeCancion(song4);
-        album3.aniadeCancion(song3);
-        album3.aniadeCancion(song7);
-        album3.aniadeCancion(song3);
-        album3.aniadeCancion(song2);
-        album3.aniadeCancion(song1);
+        album3.addSong(song4);
+        album3.addSong(song5);
+        album3.addSong(song5);
+        album3.addSong(song5);
+        album3.addSong(song4);
+        album3.addSong(song4);
+        album3.addSong(song3);
+        album3.addSong(song3);
+        album3.addSong(song4);
+        album3.addSong(song3);
+        album3.addSong(song7);
+        album3.addSong(song3);
+        album3.addSong(song2);
+        album3.addSong(song1);
 
         library.aniadeAlbum(album1);
         library.aniadeAlbum(album2);
@@ -168,11 +168,11 @@ public class BibliotecaClassShould {
         Song song3 = new Song("c3","jesus",120);
         Song song4 = new Song("c4","santana",120);
         Song song5 = new Song("c5","maroke",120);
-        album1.aniadeCancion(song1);album2.aniadeCancion(song1);
-        album1.aniadeCancion(song5);album2.aniadeCancion(song5);
-        album2.aniadeCancion(song2);album1.aniadeCancion(song3);
-        album1.aniadeCancion(song4);album1.aniadeCancion(song5);
-        album1.aniadeCancion(song1);album2.aniadeCancion(song2);
+        album1.addSong(song1);album2.addSong(song1);
+        album1.addSong(song5);album2.addSong(song5);
+        album2.addSong(song2);album1.addSong(song3);
+        album1.addSong(song4);album1.addSong(song5);
+        album1.addSong(song1);album2.addSong(song2);
         library.aniadeAlbum(album1);
         library.aniadeAlbum(album2);
 
@@ -206,17 +206,17 @@ public class BibliotecaClassShould {
 
     @Test
     public void testingIfToStringMethodIsWorking (){
-        album1.aniadeCancion(song5);
-        album1.aniadeCancion(song4);
-        album1.aniadeCancion(song3);
+        album1.addSong(song5);
+        album1.addSong(song4);
+        album1.addSong(song3);
 
-        album2.aniadeCancion(song5);
-        album2.aniadeCancion(song7);
-        album2.aniadeCancion(song4);
+        album2.addSong(song5);
+        album2.addSong(song7);
+        album2.addSong(song4);
 
-        album3.aniadeCancion(song4);
-        album3.aniadeCancion(song5);
-        album3.aniadeCancion(song5);
+        album3.addSong(song4);
+        album3.addSong(song5);
+        album3.addSong(song5);
         library.aniadeAlbum(album3);
         library.aniadeAlbum(album2);
         library.aniadeAlbum(album1);

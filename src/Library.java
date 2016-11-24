@@ -12,7 +12,7 @@ public class Library {
         return albumSet.add(album);
     }
     public Album dameAlbum(String albumName){
-        List<Album> ls = albumSet.stream().filter(p->p.dameNombre().equals(albumName)).collect(Collectors.toList());
+        List<Album> ls = albumSet.stream().filter(p->p.getName().equals(albumName)).collect(Collectors.toList());
         return ls.size() == 0 ? null : ls.get(0);
     }
 
@@ -21,13 +21,13 @@ public class Library {
     }
 
     public void eliminaAlbum(String albumName){
-        Album[] l = albumSet.stream().filter(s->s.dameNombre().equals(albumName)).toArray(Album[]::new);
+        Album[] l = albumSet.stream().filter(s->s.getName().equals(albumName)).toArray(Album[]::new);
         albumSet.remove(l[0]);
     }
 
     @Override
     public String toString(){
-        return albumSet.stream().map(s->s.dameNombre()).collect(Collectors.joining("\n"));
+        return albumSet.stream().map(s->s.getName()).collect(Collectors.joining("\n"));
     }
 
     public List<String> removeConjunto(List<String> lista, String conjunto){
@@ -52,8 +52,8 @@ public class Library {
 
         List<Song> todasLasCanciones = new ArrayList<>();
         for(Album album:albumSet){
-            for (int i = 0; i < album.numeroDeCanciones(); i++) {
-                todasLasCanciones.add(album.dameCancion(i));
+            for (int i = 0; i < album.getNumberOfSongs(); i++) {
+                todasLasCanciones.add(album.getSongAt(i));
             }
         }
         return todasLasCanciones;
