@@ -4,16 +4,17 @@ import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 
 public class AlbumShould {
-    private Album album;
+
     private Song song1;
     private Song song2;
-    private static final String DEFAULT_NAME = "A";
+    private final String DEFAULT_NAME = "A";
+    private final Album album = new Album(DEFAULT_NAME);
 
     @Before
     public void setUp() throws Exception {
-        album = new Album("A");
         song1 = new Song("a", "i1", 90);
         song2 = new Song("b", "i1", 90);
     }
@@ -27,6 +28,12 @@ public class AlbumShould {
     @Test @Ignore
     public void dameNombreMethod() {
         assertEquals(song2.dameInterprete(), "i1");
+    }
+
+    @Test
+    public void retrieve_null_given_an_invalid_index() {
+        assertNull(album.getSongAt(0));
+        assertNull(album.getSongAt(-1));
     }
 
     @Test
@@ -51,7 +58,7 @@ public class AlbumShould {
         Album album2 = new Album("album2");
         album2.addSong(song1);
 
-        assertNotEquals(album1, album2);
+        assertEquals(album1, album2);
     }
 
     @Test
@@ -60,7 +67,7 @@ public class AlbumShould {
         album1.addSong(song1);
         Album album2 = new Album("album2");
 
-        assertEquals(album1, album2);
+        assertNotEquals(album1, album2);
     }
 
     @Test
@@ -90,10 +97,12 @@ public class AlbumShould {
 
     @Test
     public void retrieve_a_string_representation_having_at_least_one_song() {
-        album.addSong(new Song("title", "author", 3));
+        album.addSong(new Song("title1", "author1", 3));
+        album.addSong(new Song("title2", "author2", 3));
 
         String expected = "Album 1:\n" +
-                          "1) [Título:title intérprete:author duración:3]";
+                          "1) [Título:title1 intérprete:author1 duración:3]\n" +
+                          "2) [Título:title2 intérprete:author2 duración:3]";
 
         assertEquals(expected, album.toString());
     }

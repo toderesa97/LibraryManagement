@@ -1,47 +1,63 @@
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Album {
-    private String albumName;
-    private List<Song> canciones;
-    private static int numberOfAlbum=0;
 
-    public Album(String albumName){
-        this.albumName = albumName;
-        this.canciones = new ArrayList<>();
-        numberOfAlbum = numberOfAlbum+1;
+    private String name;
+    private List<Song> songs;
+    private final int albumId;
 
+    public Album(String name) {
+        this.name = name;
+        this.songs = new ArrayList<>();
+        this.albumId = AlbumIdentifier.getNextId();
     }
+
     public String getName() {
-        return albumName;
+        return name;
     }
-    public int getNumberOfSongs(){
-        return canciones.size();
-    }
-    public Song getSongAt(int song){
-        return canciones.size()>song && song>=0 ? canciones.get(song) : null;
-    }
-    public void addSong(Song song){
-        canciones.add(song);
-    }
-    public void removeSongAt(int i){
-        canciones.remove(i);
-    }
-    public int duration(){
-        return canciones.stream().mapToInt(Song::dameDuracion).sum();
-    }
-    @Override
-    public String toString(){
-        String string = "Album "+numberOfAlbum+":\n";
 
-        for(int i=0; i<canciones.size();i++){
-            string += (i+1)+") "+canciones.get(i).toString()+"\n";
-        }
-        return string.substring(0,string.length()-1);
+    public int getNumberOfSongs() {
+        return songs.size();
     }
+
+    public Song getSongAt(int index) {
+        return index >= 0 && songs.size() > index ? songs.get(index) : null;
+    }
+
+    public void addSong(Song song) {
+        songs.add(song);
+    }
+
+    public void removeSongAt(int index) {
+        songs.remove(index);
+    }
+
+    public int duration() {
+        return songs.stream().mapToInt(Song::getDuration).sum();
+    }
+
     @Override
-    public boolean equals(Object obj){
-       return (obj instanceof Album) ? ((Album)obj).canciones.size() == canciones.size() &&
-                canciones.stream().map(p->p.equals(((Album)obj).
-                canciones.stream().map(u->u))).count() == canciones.size():false;
+    public String toString() {
+        String result = "Album " + albumId + ":";
+        for (int i = 0; i < songs.size(); i++) {
+            result += "\n" + (i + 1) + ") " + songs.get(i).toString();
+        }
+        return result;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        Album other = (Album) obj;
+        if (songs.size() != other.songs.size()) {
+            return false;
+        }
+        for (int i = 0; i < songs.size(); i++) {
+            if (!getSongAt(i).equals(other.getSongAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
