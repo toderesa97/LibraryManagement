@@ -1,5 +1,4 @@
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
@@ -22,12 +21,6 @@ public class AlbumShould {
     @Test
     public void have_a_default_name_when_any_name_is_given() {
         assertEquals(album.getName(), DEFAULT_NAME);
-    }
-
-    // TODO: move to SongShould class
-    @Test @Ignore
-    public void dameNombreMethod() {
-        assertEquals(song2.dameInterprete(), "i1");
     }
 
     @Test

@@ -1,7 +1,8 @@
 public class Song {
-    private String title;
-    private String author;
-    private int duration;
+
+    private final String title;
+    private final String author;
+    private final int duration;
 
     public Song(String title, String author, int duration) {
         this.title = title;
@@ -11,17 +12,17 @@ public class Song {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Song)
-            return ((Song) obj).title.equals(this.title)
-                    && ((Song) obj).dameInterprete().equals(this.author);
-        return false;
+        Song other = (Song) obj;
+        return this.title.equals(other.getTitle()) &&
+               this.author.equals(other.getAuthor()) &&
+               this.duration == other.getDuration();
     }
 
-    public String dameTitulo() {
+    public String getTitle() {
         return this.title;
     }
 
-    public String dameInterprete() {
+    public String getAuthor() {
         return author;
     }
 
@@ -31,7 +32,7 @@ public class Song {
 
     @Override
     public String toString() {
-        return "[Título:" + title + " intérprete:" + author + " duración:" + duration + "]";
+        return String.format("[Título:%s intérprete:%s duración:%d]", title, author, duration);
     }
 
 }

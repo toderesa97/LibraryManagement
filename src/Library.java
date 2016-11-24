@@ -2,65 +2,54 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Library {
-    private Set<Album> albumSet;
+    private Set<Album> albums;
 
-    public Library(){
-        albumSet = new LinkedHashSet();
+    public Library() {
+        albums = new LinkedHashSet<>();
     }
 
-    public boolean aniadeAlbum(Album album){
-        return albumSet.add(album);
-    }
-    public Album dameAlbum(String albumName){
-        List<Album> ls = albumSet.stream().filter(p->p.getName().equals(albumName)).collect(Collectors.toList());
-        return ls.size() == 0 ? null : ls.get(0);
+    public boolean addAlbum(Album album) {
+        return albums.add(album);
     }
 
-    public Set<Album> get(){
-        return albumSet;
+    public Album getAlbumByName(String albumName) {
+        return findByName(albumName).orElse(null);
     }
 
-    public void eliminaAlbum(String albumName){
-        Album[] l = albumSet.stream().filter(s->s.getName().equals(albumName)).toArray(Album[]::new);
-        albumSet.remove(l[0]);
+    public void removeAlbumByName(String albumName) {
+        findByName(albumName).ifPresent(album -> albums.remove(album));
+    }
+
+    private Optional<Album> findByName(String albumName) {
+        return albums.stream()
+                .filter(album -> album.getName().equals(albumName))
+                .findFirst();
     }
 
     @Override
-    public String toString(){
-        return albumSet.stream().map(s->s.getName()).collect(Collectors.joining("\n"));
+    public String toString() {
+        return albums.stream().map(Album::getName).collect(Collectors.joining("\n"));
     }
 
-    public List<String> removeConjunto(List<String> lista, String conjunto){
-        return lista.stream().filter(p->!p.equals(conjunto)).collect(Collectors.toList());
-    }
-    public List<Integer> apply(List<Integer> ls,final int a){
-        return ls.stream().map(p->(p+a)).collect(Collectors.toList());
-    }
-
-    public Set<Song> dameCancionesRepetidas(){
-        List<Song> todasLasCanciones = dameTodasLasCaciones();
-        return todasLasCanciones.stream().filter(p->{
+    public Set<Song> getRepeatedSongs() {
+        List<Song> allSongs = getAllSongs();
+        return allSongs.stream().filter(p -> {
             int counter = 0;
-            for(Song i:todasLasCanciones){
-                if(p.equals(i)) counter++;
+            for (Song i : allSongs) {
+                if (p.equals(i)) counter++;
             }
-            return counter>1;
+            return counter > 1;
         }).collect(Collectors.toSet());
     }
-    
-    private List<Song> dameTodasLasCaciones(){
 
-        List<Song> todasLasCanciones = new ArrayList<>();
-        for(Album album:albumSet){
-            for (int i = 0; i < album.getNumberOfSongs(); i++) {
-                todasLasCanciones.add(album.getSongAt(i));
-            }
-        }
-        return todasLasCanciones;
+    private List<Song> getAllSongs() {
+        return albums.stream()
+                .flatMap(album -> album.getAllSongs().stream())
+                .collect(Collectors.toList());
     }
 
-    public List<String> dameInterpretes() {
-        List<Song> listaDeCanciones = dameTodasLasCaciones();
+    public List<String> getAuthors() {
+        List<Song> listaDeCanciones = getAllSongs();
         List<GestionCancion> gestionCancionList = new ArrayList<>();
         List<Song> auxiliarList = new ArrayList<>();
 
@@ -72,15 +61,17 @@ public class Library {
             }
         }
         gestionCancionList.sort((GestionCancion t1, GestionCancion t2)
-                ->t1.vecesQueSeRepite == t2.vecesQueSeRepite ?
-                t1.song.dameInterprete().compareTo(t2.song.dameInterprete())
-                : (int)(t2.vecesQueSeRepite - t1.vecesQueSeRepite));
-        return gestionCancionList.stream().map(p->p.song.dameInterprete()).collect(Collectors.toList());
+                -> t1.vecesQueSeRepite == t2.vecesQueSeRepite ?
+                t1.song.getAuthor().compareTo(t2.song.getAuthor())
+                : (int) (t2.vecesQueSeRepite - t1.vecesQueSeRepite));
+        return gestionCancionList.stream().map(p -> p.song.getAuthor()).collect(Collectors.toList());
     }
+
     private class GestionCancion {
         long vecesQueSeRepite;
         Song song;
-        public GestionCancion(long vecesQueSeRepite, Song song){
+
+        public GestionCancion(long vecesQueSeRepite, Song song) {
             this.vecesQueSeRepite = vecesQueSeRepite;
             this.song = song;
         }

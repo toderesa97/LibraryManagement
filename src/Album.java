@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Album {
@@ -35,6 +36,10 @@ public class Album {
 
     public int duration() {
         return songs.stream().mapToInt(Song::getDuration).sum();
+    }
+
+    public List<Song> getAllSongs() {
+        return Collections.unmodifiableList(songs);
     }
 
     @Override
