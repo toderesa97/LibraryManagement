@@ -8,59 +8,33 @@ public class Library {
         albumSet = new LinkedHashSet();
     }
 
-    public boolean aniadeAlbum(Album album){
-        return albumSet.add(album);
+    public void aniadeAlbum(Album album){
+        albumSet.add(album);
     }
     public Album dameAlbum(String albumName){
-        List<Album> ls = albumSet.stream().filter(p->p.dameNombre().equals(albumName)).collect(Collectors.toList());
-        return ls.size() == 0 ? null : ls.get(0);
-    }
-
-    public Set<Album> get(){
-        return albumSet;
+        return albumSet.stream().filter(p -> p.dameNombre().equals(albumName)).findFirst().orElse(null);
     }
 
     public void eliminaAlbum(String albumName){
-        Album[] l = albumSet.stream().filter(s->s.dameNombre().equals(albumName)).toArray(Album[]::new);
-        albumSet.remove(l[0]);
+        albumSet = albumSet.stream().filter(album -> !album.dameNombre().equals(albumName)).collect(Collectors.toSet());
     }
 
     @Override
     public String toString(){
-        return albumSet.stream().map(s->s.dameNombre()).collect(Collectors.joining("\n"));
-    }
-
-    public List<String> removeConjunto(List<String> lista, String conjunto){
-        return lista.stream().filter(p->!p.equals(conjunto)).collect(Collectors.toList());
-    }
-    public List<Integer> apply(List<Integer> ls,final int a){
-        return ls.stream().map(p->(p+a)).collect(Collectors.toList());
+        return albumSet.stream().map(s->s.toString()).collect(Collectors.joining("\n"));
     }
 
     public Set<Song> dameCancionesRepetidas(){
-        List<Song> todasLasCanciones = dameTodasLasCaciones();
-        return todasLasCanciones.stream().filter(p->{
-            int counter = 0;
-            for(Song i:todasLasCanciones){
-                if(p.equals(i)) counter++;
-            }
-            return counter>1;
-        }).collect(Collectors.toSet());
+        return getAllSongs().stream()
+                .filter(song -> Collections.frequency(getAllSongs(), song) > 1)
+                .collect(Collectors.toSet());
     }
-    
-    private List<Song> dameTodasLasCaciones(){
-
-        List<Song> todasLasCanciones = new ArrayList<>();
-        for(Album album:albumSet){
-            for (int i = 0; i < album.numeroDeCanciones(); i++) {
-                todasLasCanciones.add(album.dameCancion(i));
-            }
-        }
-        return todasLasCanciones;
+    private List<Song> getAllSongs(){
+        return albumSet.stream().flatMap(songs -> songs.dameCanciones()).collect(Collectors.toList());
     }
 
     public List<String> dameInterpretes() {
-        List<Song> listaDeCanciones = dameTodasLasCaciones();
+        List<Song> listaDeCanciones = getAllSongs();
         List<GestionCancion> gestionCancionList = new ArrayList<>();
         List<Song> auxiliarList = new ArrayList<>();
 
@@ -71,6 +45,7 @@ public class Library {
                 auxiliarList.add(song);
             }
         }
+
         gestionCancionList.sort((GestionCancion t1, GestionCancion t2)
                 ->t1.vecesQueSeRepite == t2.vecesQueSeRepite ?
                 t1.song.dameInterprete().compareTo(t2.song.dameInterprete())

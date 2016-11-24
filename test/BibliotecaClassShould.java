@@ -1,8 +1,11 @@
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
@@ -28,72 +31,35 @@ public class BibliotecaClassShould {
 
     @Test
     public void testingIfDameAlbumMethodIsWorking (){
-        album1.aniadeCancion(song1);
-        album1.aniadeCancion(song4);
-
-        album2.aniadeCancion(song2);
-
-        album3.aniadeCancion(song2);
-        album3.aniadeCancion(song5);
-
         library.aniadeAlbum(album1);
-        library.aniadeAlbum(album3);
-        library.aniadeAlbum(album2);
-        Album obtained = library.dameAlbum("B");
-        assertTrue(album2.equals(obtained));
+        assertEquals(album1, library.dameAlbum("A"));
     }
 
     @Test
     public void testingIfAddMethodIsWorking (){
-        boolean a = library.aniadeAlbum(album1);
-        assertTrue(a);
-        a= library.aniadeAlbum(album3);
-        assertTrue(a);
-        a= library.aniadeAlbum(album2);
-        assertTrue(a);
-
-        Album[] ls = library.get().stream().toArray(Album[]::new);
-        Album[] expected = {album1,album3,album2};
-        for (int i = 0; i < expected.length; i++) {
-            assertEquals(expected[i],ls[i]);
-        }
-        assertNotEquals(song5, album1.dameCancion(0));
-        album1.aniadeCancion(song5);
         library.aniadeAlbum(album1);
-        //ls = library.get().stream().toArray(Album[]::new);
-        Album[] expected2 = {album1,album3,album2};
-        for (int i = 0; i < expected.length; i++) {
-            assertEquals(expected2[i],ls[i]);
-        }
-        assertEquals(song5, album1.dameCancion(0));
+        assertEquals("Album "+album1.getAlbumId()+":", library.toString());
+        System.out.println(library);
+
+        album1.aniadeCancion(song1);
+        library.aniadeAlbum(album1); /** sin esta linea el assert pasa */
+        assertEquals("Album "+album1.getAlbumId()+":\n1) [Título:c1 intérprete:i1 duración:90]",library.toString());
 
     }
 
     @Test
     public void testingIfRemoveMethodIsWorking (){
         album1.aniadeCancion(song1);
-        album1.aniadeCancion(song4);
-
         album2.aniadeCancion(song2);
-
-        album3.aniadeCancion(song2);
-        album3.aniadeCancion(song5);
-
         library.aniadeAlbum(album1);
-        library.aniadeAlbum(album3);
         library.aniadeAlbum(album2);
 
-        library.eliminaAlbum("C");
-        System.out.println(album1);
+        assertEquals("Album "+album1.getAlbumId()+":\n1) [Título:c1 intérprete:i1 duración:90]\n" +
+                "Album "+album2.getAlbumId()+":\n1) [Título:c2 intérprete:i1 duración:90]",library.toString());
 
-        System.out.println(library.dameAlbum("A"));
+        library.eliminaAlbum(album1.dameNombre());
 
-        assertTrue("1",album1.equals(library.dameAlbum("A")));
-        assertTrue("2",album2.equals(library.dameAlbum("B")));
-
-        assertTrue("Album erased (C) must be null ",null== library.dameAlbum("C"));
-
-
+        assertEquals("Album "+album2.getAlbumId()+":\n1) [Título:c2 intérprete:i1 duración:90]",library.toString());
 
     }
 
@@ -102,25 +68,18 @@ public class BibliotecaClassShould {
         album1.aniadeCancion(song5);
         album1.aniadeCancion(song4);
         album1.aniadeCancion(song3);
+        album1.aniadeCancion(song3);
 
         album2.aniadeCancion(song5);
-        album2.aniadeCancion(song7);
-        album2.aniadeCancion(song4);
+        library.aniadeAlbum(album1);
+        library.aniadeAlbum(album2);
 
-        album3.aniadeCancion(song1);
-        album3.aniadeCancion(song2);
-        album3.aniadeCancion(song6);
-        Library b = new Library();
-        b.aniadeAlbum(album1);b.aniadeAlbum(album2);b.aniadeAlbum(album3);
+        Set<Song> songSet = library.dameCancionesRepetidas();
+        Set<Song> songSet1 = new HashSet<>();
+        songSet1.add(song3);
+        songSet1.add(song5);
 
-
-        Set<Song> obtained = b.dameCancionesRepetidas();
-        Song[] ob = obtained.stream().toArray(Song[]::new);
-        Song[] expected = {song5, song4};
-        assertTrue("expected "+expected.length+" but was "+ob.length,expected.length==obtained.size());
-        for (int i = 0; i < expected.length; i++) {
-            assertEquals(expected[i],ob[i]);
-        }
+        assertEquals(songSet, songSet1);
     }
 
     @Test
@@ -185,46 +144,19 @@ public class BibliotecaClassShould {
         }
     }
 
-    @Test
-    public void testingIfEliminaConjuntoIsworking (){
-        List<String> obtained = library.removeConjunto(Arrays.asList("ab","bcf","defljn","ab","pepe21"),"ab");
-        List<String> expected = Arrays.asList("bcf","defljn","pepe21");
-        assertTrue(obtained.size()==expected.size());
-        for (int i = 0; i < expected.size(); i++) {
-            assertEquals(expected.get(i),obtained.get(i));
-        }
 
-        List<Integer> exp = Arrays.asList(4,6,3,9,0,5);
-        List<Integer> btained = library.apply(Arrays.asList(2,4,1,7,-2,3),2);
-        assertTrue(exp.size() == btained.size());
-
-        for (int i = 0; i < exp.size(); i++) {
-            assertTrue(exp.get(i) == btained.get(i));
-        }
-
-    }
 
     @Test
     public void testingIfToStringMethodIsWorking (){
-        album1.aniadeCancion(song5);
-        album1.aniadeCancion(song4);
-        album1.aniadeCancion(song3);
+        album1.aniadeCancion(song1);
 
-        album2.aniadeCancion(song5);
-        album2.aniadeCancion(song7);
-        album2.aniadeCancion(song4);
+        album2.aniadeCancion(song1);
 
-        album3.aniadeCancion(song4);
-        album3.aniadeCancion(song5);
-        album3.aniadeCancion(song5);
-        library.aniadeAlbum(album3);
         library.aniadeAlbum(album2);
         library.aniadeAlbum(album1);
 
-        assertEquals(library.toString(), "C\nB\nA");
+        String expected = "Album "+album2.getAlbumId()+":\n1) [Título:c1 intérprete:i1 duración:90]\n"+
+                "Album "+album1.getAlbumId()+":\n1) [Título:c1 intérprete:i1 duración:90]";
+        assertEquals(expected,library.toString());
     }
-
-
-
-
 }

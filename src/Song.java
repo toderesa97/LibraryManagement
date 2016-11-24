@@ -21,6 +21,8 @@ public class Song{
         return this.title;
     }
 
+    public Song dameCancion(){return this;}
+
     public String dameInterprete() {
         return author;
     }

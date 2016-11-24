@@ -64,8 +64,8 @@ public class AlbumClassShould {
         album.aniadeCancion(song5);album.aniadeCancion(song7);
         Album a = new Album("album2");
         a.aniadeCancion(song5);a.aniadeCancion(song2);
-        assertTrue(!album.equals(a));
-        assertTrue(!song6.equals(song7));
+        assertTrue("1",!album.equals(a));
+        assertTrue("2",!song6.equals(song7));
     }
 
     @Test
@@ -116,7 +116,7 @@ public class AlbumClassShould {
         Album al = new Album("B");
         al.aniadeCancion(song1);
         al.aniadeCancion(song4);
-        String expected = "Album 5:\n1) [Título:a intérprete:i1 duración:90]\n" +
+        String expected = "Album "+al.getAlbumId()+":\n1) [Título:a intérprete:i1 duración:90]\n" +
                 "2) [Título:d intérprete:i2 duración:120]";
         assertEquals(expected,al.toString());
     }

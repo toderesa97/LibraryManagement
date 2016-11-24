@@ -1,5 +1,7 @@
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 public class Album {
     private String albumName;
     private List<Song> canciones;
@@ -11,6 +13,7 @@ public class Album {
         numberOfAlbum = numberOfAlbum+1;
 
     }
+    public int getAlbumId(){return numberOfAlbum;}
     public String dameNombre() {
         return albumName;
     }
@@ -38,10 +41,15 @@ public class Album {
         }
         return string.substring(0,string.length()-1);
     }
+
+    public Stream<Song> dameCanciones(){
+        return canciones.stream();
+    }
     @Override
     public boolean equals(Object obj){
-       return (obj instanceof Album) ? ((Album)obj).canciones.size() == canciones.size() &&
-                canciones.stream().map(p->p.equals(((Album)obj).
-                canciones.stream().map(u->u))).count() == canciones.size():false;
+
+        return (obj instanceof Album) ? ((Album)obj).canciones.size() == canciones.size() &&
+                canciones.stream().filter(p->p.equals(((Album)obj).
+                        canciones.stream().map(u->u))).count() == canciones.size():false;
     }
 }
