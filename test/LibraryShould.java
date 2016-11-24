@@ -95,6 +95,9 @@ public class LibraryShould {
         album2.addSong(song5);
         album2.addSong(song6);
 
+        library.addAlbum(album1);
+        library.addAlbum(album2);
+
         List<String> expected = Arrays.asList(author3, author2, author1);
         assertEquals(expected, library.getAuthors());
     }

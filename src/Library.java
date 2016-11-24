@@ -44,33 +44,29 @@ public class Library {
     }
 
     public List<String> getAuthors() {
-        List<Song> listaDeCanciones = getAllSongs();
-        List<GestionCancion> gestionCancionList = new ArrayList<>();
-        List<Song> auxiliarList = new ArrayList<>();
+        List<String> authors = getAllSongs().stream()
+                .map(Song::getAuthor)
+                .collect(Collectors.toList());
 
-        for (Song song : listaDeCanciones) {
-            long vecesQueEstaRepetida = listaDeCanciones.stream().filter(p -> p.equals(song)).count();
-            if (!auxiliarList.contains(song)) {
-                gestionCancionList.add(new GestionCancion(vecesQueEstaRepetida, song));
-                auxiliarList.add(song);
+        return authors.stream()
+                .sorted(sortedCriteria(authors))
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+    private Comparator<String> sortedCriteria(final List<String> authors) {
+        return (author1, author2) -> {
+            int frequency1 = Collections.frequency(authors, author1);
+            int frequency2 = Collections.frequency(authors, author2);
+            if (frequency1 > frequency2) {
+                return -1;
+            } else if (frequency1 < frequency2){
+                return 1;
             }
-        }
-        gestionCancionList.sort((GestionCancion t1, GestionCancion t2)
-                -> t1.vecesQueSeRepite == t2.vecesQueSeRepite ?
-                t1.song.getAuthor().compareTo(t2.song.getAuthor())
-                : (int) (t2.vecesQueSeRepite - t1.vecesQueSeRepite));
-        return gestionCancionList.stream().map(p -> p.song.getAuthor()).collect(Collectors.toList());
+            return author1.compareTo(author2);
+        };
     }
 
-    private class GestionCancion {
-        long vecesQueSeRepite;
-        Song song;
-
-        public GestionCancion(long vecesQueSeRepite, Song song) {
-            this.vecesQueSeRepite = vecesQueSeRepite;
-            this.song = song;
-        }
-    }
 }
 
 
