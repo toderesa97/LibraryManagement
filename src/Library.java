@@ -28,7 +28,7 @@ public class Library {
 
     @Override
     public String toString() {
-        return albums.stream().map(Album::getName).collect(Collectors.joining("\n"));
+        return albums.stream().map(Album::toString).collect(Collectors.joining("\n"));
     }
 
     public Set<Song> getRepeatedSongs() {
