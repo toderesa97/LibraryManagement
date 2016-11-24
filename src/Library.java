@@ -32,14 +32,9 @@ public class Library {
     }
 
     public Set<Song> getRepeatedSongs() {
-        List<Song> allSongs = getAllSongs();
-        return allSongs.stream().filter(p -> {
-            int counter = 0;
-            for (Song i : allSongs) {
-                if (p.equals(i)) counter++;
-            }
-            return counter > 1;
-        }).collect(Collectors.toSet());
+        return getAllSongs().stream()
+                .filter(song -> Collections.frequency(getAllSongs(), song) > 1)
+                .collect(Collectors.toSet());
     }
 
     private List<Song> getAllSongs() {
