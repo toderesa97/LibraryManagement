@@ -93,7 +93,7 @@ public class AlbumShould {
         album.addSong(new Song("title1", "author1", 3));
         album.addSong(new Song("title2", "author2", 3));
 
-        String expected = "Album 1:\n" +
+        String expected = "Album " + album.getId() + ":\n" +
                           "1) [Título:title1 intérprete:author1 duración:3]\n" +
                           "2) [Título:title2 intérprete:author2 duración:3]";
 
@@ -102,7 +102,7 @@ public class AlbumShould {
 
     @Test
     public void retrieve_a_string_representation_having_zero_songs() {
-        String expected = "Album 1:";
+        String expected = String.format("Album %d:", album.getId());
 
         assertEquals(expected, album.toString());
     }

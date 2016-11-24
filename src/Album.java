@@ -65,4 +65,7 @@ public class Album {
         return true;
     }
 
+    public int getId() {
+        return albumId;
+    }
 }
